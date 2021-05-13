@@ -1,0 +1,16 @@
+# IDE
+.idea/
+.vs/
+.vscode/
+*.code-workspace
+/.vim
+
+# Node Modules
+node_modules/
+
+# Distribution directory
+dist/
+
+# Misc
+/test-scripts
+/.eslintcache
