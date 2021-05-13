@@ -116,7 +116,7 @@ export class CurrencyTransfer extends FormApplication {
       total:
         this.source.amount.gp === "∞"
           ? "∞"
-          : this.constructor.order.reduce((acc, c, idx) => acc + this.source.amount[c] * 10 ** (1 - idx), 0),
+          : this.constructor.order.reduce((acc, c, idx) => acc + this.source.amount[c] * 100 ** (1 - idx), 0),
     };
   }
 
@@ -137,9 +137,9 @@ export class CurrencyTransfer extends FormApplication {
     const amounts = Object.fromEntries(
       [...form.querySelectorAll("input")].map((o) => [o.name, parseInt(o.value || 0)])
     );
-    const value = this.constructor.order.reduce((acc, c, idx) => acc + amounts[c] * 10 ** (1 - idx), 0);
+    const value = this.constructor.order.reduce((acc, c, idx) => acc + amounts[c] * 100 ** (1 - idx), 0);
 
-    form.querySelector(".currency-total .form-fields label").textContent = Math.round(value * 100) / 100 + " gp";
+    form.querySelector(".currency-total .form-fields label").textContent = Math.round(value * 10000) / 10000 + " gp";
   }
 
   async close(...args) {
@@ -203,8 +203,8 @@ export class CurrencyTransfer extends FormApplication {
     if ((!sourceCurrency && !game.user.isGM) || !destCurrency) return false;
     const originalSource = Object.assign(Object.fromEntries(this.order.map((o) => [o, Infinity])), sourceCurrency);
 
-    const totalAmount = this.order.reduce((acc, c, idx) => acc + amount[c] * 10 ** (1 - idx), 0);
-    const totalSource = this.order.reduce((acc, c, idx) => acc + sourceCurrency[c] * 10 ** (1 - idx), 0);
+    const totalAmount = this.order.reduce((acc, c, idx) => acc + amount[c] * 100 ** (1 - idx), 0);
+    const totalSource = this.order.reduce((acc, c, idx) => acc + sourceCurrency[c] * 100 ** (1 - idx), 0);
 
     if (totalAmount > totalSource) return this._failed("PF1.CurrencyInsufficient"), false;
 
@@ -263,17 +263,17 @@ export class CurrencyTransfer extends FormApplication {
     if (!limit) limit = Object.fromEntries(this.order.map((o) => [o, Infinity]));
     else limit = Object.assign({}, limit);
     if (typeof totalAmount !== "number")
-      totalAmount = this.order.reduce((acc, cur, idx) => acc + totalAmount?.[cur] * 10 ** (1 - idx));
+      totalAmount = this.order.reduce((acc, cur, idx) => acc + totalAmount?.[cur] * 100 ** (1 - idx));
     if (!totalAmount) return false;
     var amount = {};
     totalAmount =
       this.order.reduce((acc, cur, idx) => {
-        let minRequired = Math.min(limit[cur], Math.floor((acc % 10000) / 10 ** (3 - idx))), //Start from left to allow clumping
-          inCopper = minRequired * 10 ** (3 - idx);
+        let minRequired = Math.min(limit[cur], Math.floor((acc % 10000) / 10000 ** (3 - idx))), //Start from left to allow clumping
+          inCopper = minRequired * 100 ** (3 - idx);
         amount[cur] = minRequired;
         limit[cur] -= minRequired;
         return acc - inCopper;
-      }, totalAmount * 100) / 100; //Operate in copper pieces to avoid floating point errors
+      }, totalAmount * 10000) / 10000; //Operate in copper pieces to avoid floating point errors
     if (totalAmount < 0) return false;
     return amount;
   }

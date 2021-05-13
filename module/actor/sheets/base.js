@@ -199,12 +199,12 @@ export class ActorSheetPF extends ActorSheet {
       const gpValue = this.calculateTotalItemValue();
       const totalValue = {
         gp: Math.max(0, Math.floor(gpValue)),
-        sp: Math.max(0, Math.floor(gpValue * 10 - Math.floor(gpValue) * 10)),
+        sp: Math.max(0, Math.floor(gpValue * 100 - Math.floor(gpValue) * 100)),
         cp: Math.max(
           0,
           Math.floor(
-            Math.floor(gpValue * 100 - Math.floor(gpValue) * 100) -
-              Math.floor(gpValue * 10 - Math.floor(gpValue) * 10) * 10
+            Math.floor(gpValue * 10000 - Math.floor(gpValue) * 10000) -
+              Math.floor(gpValue * 100 - Math.floor(gpValue) * 100) * 100
           )
         ),
       };
