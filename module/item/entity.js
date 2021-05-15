@@ -4229,7 +4229,7 @@ export class ItemPF extends Item {
   getTotalCurrency() {
     const currencies = getProperty(this.data, "data.currency");
     if (!currencies) return 0;
-    return (currencies.pp * 1000 + currencies.gp * 100 + currencies.sp * 10 + currencies.cp) / 100;
+    return (currencies.pp * 1000000 + currencies.gp * 10000 + currencies.sp * 100 + currencies.cp) / 10000;
   }
 
   getValue({ recursive = true, sellValue = 0.5 } = {}) {
@@ -4265,22 +4265,25 @@ export class ItemPF extends Item {
     let values = [0, 0, 0, 0];
     switch (type) {
       case "pp":
-        values[0] = Math.floor(totalValue / 10);
-        values[1] = Math.max(0, Math.floor(totalValue) - values[0] * 10);
-        values[2] = Math.max(0, Math.floor(totalValue * 10) - values[0] * 100 - values[1] * 10);
-        values[3] = Math.max(0, Math.floor(totalValue * 100) - values[0] * 1000 - values[1] * 100 - values[2] * 10);
+        values[0] = Math.floor(totalValue / 100);
+        values[1] = Math.max(0, Math.floor(totalValue) - values[0] * 100);
+        values[2] = Math.max(0, Math.floor(totalValue * 100) - values[0] * 10000 - values[1] * 100);
+        values[3] = Math.max(
+          0,
+          Math.floor(totalValue * 10000) - values[0] * 1000000 - values[1] * 10000 - values[2] * 100
+        );
         break;
       case "gp":
         values[1] = Math.floor(totalValue);
-        values[2] = Math.max(0, Math.floor(totalValue * 10) - values[1] * 10);
-        values[3] = Math.max(0, Math.floor(totalValue * 100) - values[1] * 100 - values[2] * 10);
+        values[2] = Math.max(0, Math.floor(totalValue * 100) - values[1] * 100);
+        values[3] = Math.max(0, Math.floor(totalValue * 10000) - values[1] * 10000 - values[2] * 100);
         break;
       case "sp":
-        values[2] = Math.floor(totalValue * 10);
-        values[3] = Math.max(0, Math.floor(totalValue * 100) - values[2] * 10);
+        values[2] = Math.floor(totalValue * 100);
+        values[3] = Math.max(0, Math.floor(totalValue * 10000) - values[2] * 100);
         break;
       case "cp":
-        values[3] = Math.floor(totalValue * 100);
+        values[3] = Math.floor(totalValue * 10000);
         break;
     }
 

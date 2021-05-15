@@ -34,23 +34,23 @@ export class ActorSheetPFNPCLoot extends ActorSheetPFNPC {
     const sellValue = this.calculateSellItemValue() + this.actor.mergeCurrency();
     data.totalValue = {
       gp: Math.max(0, Math.floor(gpValue)),
-      sp: Math.max(0, Math.floor(gpValue * 10 - Math.floor(gpValue) * 10)),
+      sp: Math.max(0, Math.floor(gpValue * 100 - Math.floor(gpValue) * 100)),
       cp: Math.max(
         0,
         Math.floor(
-          Math.floor(gpValue * 100 - Math.floor(gpValue) * 100) -
-            Math.floor(gpValue * 10 - Math.floor(gpValue) * 10) * 10
+          Math.floor(gpValue * 10000 - Math.floor(gpValue) * 10000) -
+            Math.floor(gpValue * 100 - Math.floor(gpValue) * 100) * 100
         )
       ),
     };
     data.sellValue = {
       gp: Math.max(0, Math.floor(sellValue)),
-      sp: Math.max(0, Math.floor(sellValue * 10 - Math.floor(sellValue) * 10)),
+      sp: Math.max(0, Math.floor(sellValue * 100 - Math.floor(sellValue) * 100)),
       cp: Math.max(
         0,
         Math.floor(
-          Math.floor(sellValue * 100 - Math.floor(sellValue) * 100) -
-            Math.floor(sellValue * 10 - Math.floor(sellValue) * 10) * 10
+          Math.floor(sellValue * 10000 - Math.floor(sellValue) * 10000) -
+            Math.floor(sellValue * 100 - Math.floor(sellValue) * 100) * 100
         )
       ),
     };

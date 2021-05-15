@@ -115,9 +115,9 @@ export class ActorSheetPFCharacter extends ActorSheetPF {
     event.preventDefault();
     const curr = duplicate(this.actor.data.data.currency);
     const convert = {
-      cp: { into: "sp", each: 10 },
-      sp: { into: "gp", each: 10 },
-      gp: { into: "pp", each: 10 },
+      cp: { into: "sp", each: 100 },
+      sp: { into: "gp", each: 100 },
+      gp: { into: "pp", each: 100 },
     };
     for (let [c, t] of Object.entries(convert)) {
       let change = Math.floor(curr[c] / t.each);
