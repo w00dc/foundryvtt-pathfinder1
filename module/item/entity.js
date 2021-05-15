@@ -4268,7 +4268,10 @@ export class ItemPF extends Item {
         values[0] = Math.floor(totalValue / 100);
         values[1] = Math.max(0, Math.floor(totalValue) - values[0] * 100);
         values[2] = Math.max(0, Math.floor(totalValue * 100) - values[0] * 10000 - values[1] * 100);
-        values[3] = Math.max(0, Math.floor(totalValue * 10000) - values[0] * 100000 - values[1] * 10000 - values[2] * 1000);
+        values[3] = Math.max(
+          0,
+          Math.floor(totalValue * 10000) - values[0] * 1000000 - values[1] * 10000 - values[2] * 100
+        );
         break;
       case "gp":
         values[1] = Math.floor(totalValue);
